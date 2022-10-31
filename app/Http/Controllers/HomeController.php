@@ -19,10 +19,15 @@ class HomeController extends Controller
     /**
      * Show the application dashboard.
      *
+     * @param Request $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('home');
+        $context = [
+            'user' => $request->user(),
+        ];
+        
+        return view('home', $context);
     }
 }
