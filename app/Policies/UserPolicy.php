@@ -40,8 +40,8 @@ class UserPolicy
      * @return mixed
      */
     public function update(User $user, User $model)
-    {
-        //
+    {        
+        return $user->id === $model->id || $user->hasPermissionTo('edit_users');
     }
 
     /**
