@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Exception;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -23,7 +24,7 @@ class User extends Authenticatable
     /**
      * User Types or Lever
      */
-    public const BLOGGER_TYPE = 3;
+    public const BLOGGER = 3;
     public const SUPERVISOR = 2;
     public const ADMIN = 1;
 
@@ -34,7 +35,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password',
-        'user_type', 'last_name', 'last_login'
+        'last_name',
     ];
 
     /**
@@ -57,6 +58,53 @@ class User extends Authenticatable
     ];
 
     /**
+     * Make a user a blogger
+     *
+     * @return User
+     */
+    public function makeBlogger(): User
+    {
+        return $this->changeUserType(self::BLOGGER);
+    }
+
+    /**
+     * Make a user a Supervisor
+     *
+     * @return User
+     */
+    public function makeSupervisor(): User
+    {
+        return $this->changeUserType(self::SUPERVISOR);
+    }
+
+    /**
+     * Make a user an admin
+     *
+     * @return User
+     */
+    public function makeAdmin(): User
+    {
+        return $this->changeUserType(self::ADMIN);
+    }
+
+    /**
+     * Change user type/permission level
+     *
+     * @param integer $userType
+     * @return User
+     */
+    protected function changeUserType(int $userType): User
+    {
+        if (! in_array($userType, array_keys(self::getUserTypes()))) {
+            throw new Exception('Invalid user type! Please try with a valid user type code');
+        }
+
+        $this->update(['user_type' => $userType]);
+
+        return $this;
+    }
+
+    /**
      * Retrieve the available user types
      *
      * @return array
@@ -64,7 +112,7 @@ class User extends Authenticatable
     public static function getUserTypes(): array
     {
         return [
-            self::BLOGGER_TYPE => 'Blogger',
+            self::BLOGGER => 'Blogger',
             self::SUPERVISOR => 'Supervisor',
             self::ADMIN => 'Admin',
         ];
