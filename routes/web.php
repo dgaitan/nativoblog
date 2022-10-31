@@ -14,3 +14,10 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+
+Route::middleware('auth')->name('app.')->group(function () {
+    // Account Routes
+    Route::prefix('/account')->name('account.')->group(function () {
+        Route::post('/update', 'AccountController@update')->name('update');
+    });
+});

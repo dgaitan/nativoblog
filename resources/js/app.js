@@ -31,3 +31,71 @@ require('./bootstrap');
 // const app = new Vue({
 //     el: '#app'
 // });
+
+var updateAccountAction = function () {
+    var form = $('#editAccountModalForm');
+
+    if (! form) {
+        return;
+    }
+
+    var notices = $('#editAccountModalNotices');
+    var errors = $('#editAccountModalErrors');
+    var submitButton = $('#editAccountModalFormButton');
+    
+    form.on('submit', function (e) {
+        e.preventDefault();
+        var target = $(e.target);
+
+        // Remove any actions
+        notices.hide();
+        errors.hide();
+        $('.invalid-feedback').hide();
+        $('.form-control').removeClass('is-invalid');
+
+        submitButton.val('Saving...');
+        submitButton.attr('disabled', true);
+
+        var fields = {};
+        target.serializeArray().map(function (field) {
+            fields[field.name] = field.value;
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: form.attr('action'),
+            // contentType: 'application/json',
+            dataType: 'json',
+            headers: {
+                'X-CSRF-TOKEN': fields._token
+            },
+            data: fields,
+            success: function (response, status) {
+                submitButton.text('Save Changes');
+                submitButton.attr('disabled', false);   
+
+                notices.find('.alert-content').text(response.message);
+                notices.show();
+
+                $('.is-password').val('');
+            },
+            error: function (response) {
+                submitButton.text('Save Changes');
+                submitButton.attr('disabled', false);   
+                
+                errors.find('.alert-content').text(response.responseJSON.message);
+                errors.show();
+                
+                var err = response.responseJSON.errors;
+                Object.keys(err).map(function (v) {
+                    form.find(`input[name=${v}]`).addClass('is-invalid');
+                    form.find(`#invalid-message-${v}`).text(err[v]).show();
+                })
+            }
+        });
+    });
+};
+
+$(document).ready(function () {
+    updateAccountAction();
+});
