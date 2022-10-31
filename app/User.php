@@ -65,7 +65,12 @@ class User extends Authenticatable
         return $this;
     }
 
-    public static function boot()
+    /**
+     * Bootting Model
+     *
+     * @return void
+     */
+    public static function boot(): void
     {
         parent::boot();
 
