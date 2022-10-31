@@ -6,6 +6,8 @@ use App\Traits\HasRoles;
 use Exception;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -51,6 +53,26 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'last_login' => 'datetime',
     ];
+
+    /**
+     * Belongs to a supervisor
+     *
+     * @return BelongsTo
+     */
+    public function supervisor(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'supervisor_id');
+    }
+
+    /**
+     * Supervisor has bloggers
+     *
+     * @return HasMany
+     */
+    public function bloggers(): HasMany
+    {
+        return $this->hasMany(self::class, 'supervisor_id');
+    }
 
     /**
      * Register user last login

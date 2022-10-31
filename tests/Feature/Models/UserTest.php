@@ -96,6 +96,43 @@ class UserTest extends TestCase
         $this->assertTrue($user->hasPermissionTo('assign_user_types'));
     }
 
+    public function test_supervisor_users_can_have_many_bloggers(): void
+    {
+        $supervisor = $this->create_user()->makeSupervisor();
+
+        $blogger1 = User::create([
+            'name' => 'John',
+            'last_name' => 'Blogger 1',
+            'email' => 'john@blogger-first.com',
+            'password' => 'secret',
+        ]);
+        $blogger2 = User::create([
+            'name' => 'John',
+            'last_name' => 'Blogger 2',
+            'email' => 'john@blogger-2nd.com',
+            'password' => 'secret',
+        ]);
+
+        $supervisor->bloggers()->saveMany([$blogger2, $blogger1]);
+
+        $this->assertEquals(2, $supervisor->bloggers()->count());
+
+        $blogger3 = User::create([
+            'name' => 'John',
+            'last_name' => 'Blogger 3',
+            'email' => 'john@blogger-3rd.com',
+            'password' => 'secret',
+        ]);
+
+        $supervisor->bloggers()->save($blogger3);
+        
+        $this->assertEquals(3, $supervisor->bloggers()->count());
+
+        $this->assertEquals($supervisor->id, $blogger1->supervisor->id);
+        $this->assertEquals($supervisor->id, $blogger2->supervisor->id);
+        $this->assertEquals($supervisor->id, $blogger2->supervisor->id);
+    }
+
     protected function create_user(): User
     {
         return User::create([
