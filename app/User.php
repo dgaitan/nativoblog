@@ -88,6 +88,19 @@ class User extends Authenticatable
     }
 
     /**
+     * Register user last login
+     *
+     * @return User
+     */
+    public function registerLogin(): User
+    {
+        $this->last_login = now();
+        $this->save();
+
+        return $this;
+    }
+
+    /**
      * Change user type/permission level
      *
      * @param integer $userType
@@ -99,7 +112,8 @@ class User extends Authenticatable
             throw new Exception('Invalid user type! Please try with a valid user type code');
         }
 
-        $this->update(['user_type' => $userType]);
+        $this->user_type = $userType;
+        $this->save();
 
         return $this;
     }
