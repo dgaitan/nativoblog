@@ -75,6 +75,7 @@ class RegisterController extends Controller
          * By Default a user will be a blogger
          */
         $user->makeBlogger();
+        $user->registerLogin();
 
         return $user;
     }
