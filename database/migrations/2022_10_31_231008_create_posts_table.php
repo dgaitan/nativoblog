@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
 
             $table->string('title', 255);
             $table->text('content');
+            $table->bigInteger('author_id');
         });
     }
 
