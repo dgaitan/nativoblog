@@ -6,6 +6,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/**
+ * App/User
+ * 
+ * @property string $name
+ * @property string|null $last_name
+ * @property string $email
+ * @property string $password
+ * @property int $user_type
+ * @property \Illuminate\Support\Carbon $last_login
+ */
 class User extends Authenticatable
 {
     use Notifiable;
@@ -17,6 +27,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name', 'email', 'password',
+        'user_type', 'last_name', 'last_login'
     ];
 
     /**
@@ -35,5 +46,6 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'last_login' => 'datetime',
     ];
 }
