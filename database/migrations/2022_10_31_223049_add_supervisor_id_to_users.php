@@ -14,7 +14,7 @@ class AddSupervisorIdToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->bigInteger('supervisor_id');
+            $table->bigInteger('supervisor_id')->nullable();
         });
     }
 
