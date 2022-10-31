@@ -80,7 +80,6 @@ var updateAccountAction = function () {
                 $('.is-password').val('');
 
                 ['name', 'last_name', 'email'].forEach(function (value) {
-                    console.log(value)
                     $(`#account-${value}`).text(fields[value]);
                 });
             },
