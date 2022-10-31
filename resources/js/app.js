@@ -78,6 +78,11 @@ var updateAccountAction = function () {
                 notices.show();
 
                 $('.is-password').val('');
+
+                ['name', 'last_name', 'email'].forEach(function (value) {
+                    console.log(value)
+                    $(`#account-${value}`).text(fields[value]);
+                });
             },
             error: function (response) {
                 submitButton.text('Save Changes');

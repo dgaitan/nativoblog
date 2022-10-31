@@ -22,19 +22,19 @@
                         <div class="col-12 col-md-6">
                             <div class="mb-3">
                                 <strong class="d-block text-muted">First Name:</strong>
-                                <p class="fs-5">{{ $user->name }}</p>
+                                <p id="account-name" class="fs-5">{{ $user->name }}</p>
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <div class="mb-3">
                                 <strong class="d-block text-muted">Last Name:</strong>
-                                <p class="fs-5">{{ $user->last_name }}</p>
+                                <p id="account-last_name" class="fs-5">{{ $user->last_name }}</p>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="mb-3">
                                 <strong class="d-block text-muted">Email:</strong>
-                                <p class="fs-5">{{ $user->email }}</p>
+                                <p id="account-email" class="fs-5">{{ $user->email }}</p>
                             </div>
                         </div>
                         <div class="col-12">
