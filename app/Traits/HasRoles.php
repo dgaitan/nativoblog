@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 trait HasRoles
 {
@@ -102,6 +103,21 @@ trait HasRoles
         $this->save();
 
         return $this;
+    }
+
+    /**
+     * Validate user is an admin to perform an action or
+     * throw an exception
+     *
+     * @return void
+     */
+    protected function needsToBeAdmin(): void
+    {
+        if (Auth::check() && Auth::user()->isAdmin()) {
+            return;
+        }
+
+        throw new Exception('Grant Access required to perform this action');
     }
 
     /**

@@ -64,4 +64,15 @@ class User extends Authenticatable
 
         return $this;
     }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(function ($model) {
+            if (! $model->user_type) {
+                $model->makeBlogger();
+            }
+        });
+    }
 }
