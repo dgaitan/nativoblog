@@ -21,9 +21,16 @@ class User extends Authenticatable
     use Notifiable;
 
     /**
+     * User Types or Lever
+     */
+    public const BLOGGER_TYPE = 3;
+    public const SUPERVISOR = 2;
+    public const ADMIN = 1;
+
+    /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var array<string>
      */
     protected $fillable = [
         'name', 'email', 'password',
@@ -33,7 +40,7 @@ class User extends Authenticatable
     /**
      * The attributes that should be hidden for arrays.
      *
-     * @var array
+     * @var array<string>
      */
     protected $hidden = [
         'password', 'remember_token',
@@ -42,10 +49,24 @@ class User extends Authenticatable
     /**
      * The attributes that should be cast to native types.
      *
-     * @var array
+     * @var array<string, mixed>
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'last_login' => 'datetime',
     ];
+
+    /**
+     * Retrieve the available user types
+     *
+     * @return array
+     */
+    public static function getUserTypes(): array
+    {
+        return [
+            self::BLOGGER_TYPE => 'Blogger',
+            self::SUPERVISOR => 'Supervisor',
+            self::ADMIN => 'Admin',
+        ];
+    }
 }
