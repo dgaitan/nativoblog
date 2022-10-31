@@ -41288,7 +41288,6 @@ var updateAccountAction = function updateAccountAction() {
         notices.show();
         $('.is-password').val('');
         ['name', 'last_name', 'email'].forEach(function (value) {
-          console.log(value);
           $("#account-".concat(value)).text(fields[value]);
         });
       },
