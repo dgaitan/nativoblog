@@ -41305,8 +41305,19 @@ var updateAccountAction = function updateAccountAction() {
     });
   });
 };
+var deletePost = function deletePost() {
+  var trigger = $('.delete-post');
+  if (!trigger) {
+    return;
+  }
+  trigger.on('click', function () {
+    var post = $(this);
+    $('#deletePostModalForm').attr('action', post.data('action'));
+  });
+};
 $(document).ready(function () {
   updateAccountAction();
+  deletePost();
 });
 
 /***/ }),

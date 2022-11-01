@@ -25,4 +25,52 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'author_id');
     }
+
+    /**
+     * Get Edit Link
+     *
+     * @return string
+     */
+    public function getEditLink(): string
+    {
+        return route('app.posts.edit', [
+            'post' => $this
+        ]);
+    }
+
+    /**
+     * Get Dtail Link
+     *
+     * @return string
+     */
+    public function getDetailLink(): string
+    {
+        return route('app.posts.detail', [
+            'post' => $this
+        ]);
+    }
+
+    /**
+     * GEt Update Action Link
+     *
+     * @return string
+     */
+    public function getUpdateActionLink(): string
+    {
+        return route('app.posts.update', [
+            'post' => $this
+        ]);
+    }
+
+    /**
+     * Get Delete Action Link
+     *
+     * @return string
+     */
+    public function getDeleteActionLink(): string
+    {
+        return route('app.posts.delete', [
+            'post' => $this
+        ]);
+    }
 }

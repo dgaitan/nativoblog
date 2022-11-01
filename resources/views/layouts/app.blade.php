@@ -34,7 +34,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="" class="nav-link">Blogs</a>
+                            <a href="{{ route('app.posts.index') }}" class="nav-link">Blogs</a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">Users</a>
@@ -78,6 +78,18 @@
         </nav>
 
         <main class="py-4">
+            @if (session('status'))
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                {{ session('status') }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </main>
     </div>
