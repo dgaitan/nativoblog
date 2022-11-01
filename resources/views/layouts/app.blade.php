@@ -33,13 +33,15 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a href="{{ route('app.posts.index') }}" class="nav-link">Blogs</a>
-                        </li>
-                        @if (Auth::user()->hasPermissionTo('see_users'))
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Users</a>
-                        </li>
+                        @if (Auth::check())
+                            <li class="nav-item">
+                                <a href="{{ route('app.posts.index') }}" class="nav-link">Blogs</a>
+                            </li>
+                            @if (Auth::user()->hasPermissionTo('see_my_bloggers'))
+                            <li class="nav-item">
+                                <a href="{{ route('app.users.index') }}" class="nav-link">Users</a>
+                            </li>
+                            @endif
                         @endif
                     </ul>
 
