@@ -3,14 +3,6 @@
 @section('content')
 <div class="container">
     <div class="row">
-        @if (session('status'))
-            <div class="col-12">
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                    {{ session('status') }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            </div>
-        @endif
         <div class="col-md-3">
             <div class="card">
                 <div class="card-header d-flex align-items-center justify-content-between">

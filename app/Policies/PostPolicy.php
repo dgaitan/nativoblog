@@ -19,7 +19,7 @@ class PostPolicy
      */
     public function view(User $user, Post $post)
     {
-        //
+        return $this->performAction($user, $post);
     }
 
     /**
@@ -30,7 +30,7 @@ class PostPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -42,7 +42,7 @@ class PostPolicy
      */
     public function update(User $user, Post $post)
     {
-        //
+        return $this->performAction($user, $post);
     }
 
     /**
@@ -54,7 +54,7 @@ class PostPolicy
      */
     public function delete(User $user, Post $post)
     {
-        //
+        return $this->performAction($user, $post);
     }
 
     /**
@@ -79,5 +79,25 @@ class PostPolicy
     public function forceDelete(User $user, Post $post)
     {
         //
+    }
+
+    /**
+     * Determine if user can perform crud actions in psot
+     *
+     * @param User $user
+     * @param Post $post
+     * @return void
+     */
+    public function performAction(User $user, Post $post)
+    {
+        if ($user->isAdmin()) {
+            return true;
+        }
+
+        if ($user->isSupervisor()) {
+            return in_array($post->author_id, $user->bloggerIds());
+        }
+
+        return $user->id === $post->author_id;
     }
 }
