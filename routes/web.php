@@ -38,11 +38,11 @@ Route::middleware('auth')->name('app.')->group(function () {
         Route::get('/', 'UserController@index')
             ->middleware('can:viewList,App\User')
             ->name('index');
-        Route::put('/new', 'UserController@new')
-            ->middleware('can:create,user')
+        Route::get('/new', 'UserController@new')
+            ->middleware('can:create,App\User')
             ->name('new');
-        Route::put('/new', 'UserController@store')
-            ->middleware('can:create,user')
+        Route::post('/new', 'UserController@store')
+            ->middleware('can:create,App\User')
             ->name('store');
         Route::get('/{user}', 'UserController@show')
             ->middleware('can:view,user')

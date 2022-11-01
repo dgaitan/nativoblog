@@ -105,7 +105,7 @@ trait HasRoles
      * @param integer $userType
      * @return self
      */
-    protected function changeUserType(int $userType): self
+    public function changeUserType(int $userType): self
     {
         $this->validateUserType($userType);
 

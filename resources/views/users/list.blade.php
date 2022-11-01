@@ -7,7 +7,7 @@
                 <div class="d-flex align-items-center">
                     <h2 class="me-3 mb-0">User List</h2>
                     @if (Auth::user()->hasPermissionTo('create_users'))
-                        <a href="{{ route('app.posts.new') }}" class="btn btn-sm btn-primary text-white">Add New User</a>
+                        <a href="{{ route('app.users.new') }}" class="btn btn-sm btn-primary text-white">Add New User</a>
                     @endif
                 </div>
                 <div>
