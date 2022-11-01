@@ -132,6 +132,13 @@ class User extends Authenticatable
         ]);
     }
 
+    public function getBloggersLink(): string
+    {
+        return route('app.supervisors.bloggers', [
+            'user' => $this
+        ]);
+    }
+
     /**
      * get Post Count
      *

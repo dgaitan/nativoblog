@@ -92,6 +92,17 @@ class UserPolicy
     }
 
     /**
+     * View Supervisor
+     *
+     * @param User $user
+     * @return bool
+     */
+    public function viewSupervisor(User $user)
+    {
+        return $user->hasPermissionTo('see_supervisors');
+    }
+
+    /**
      * PErform an action if has permission
      *
      * @param User $user

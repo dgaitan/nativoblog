@@ -28,7 +28,7 @@
                 </div>
                 <hr>
                 <div class="d-flex justify-content-between">
-                    <a href="{{ route('app.users.index') }}" class="btn btn-dark">Back</a>
+                    <button type="button" onClick="history.back()" class="btn btn-dark">Back</button>
                     @if (Auth::user()->hasPermissionTo('edit_users'))
                     <a href="{{ $user->getEditLink() }}" class="btn btn-success text-white">Edit</a>
                     @endif
