@@ -11,6 +11,11 @@
                         <div class="mb-2">
                             <strong>Email: </strong> {{ $user->email }}
                         </div>
+                        @if ($user->supervisor_id)
+                        <div class="mb-2">
+                            <strong>Supervisor: </strong> {{ $user->supervisorUser->name }}
+                        </div>
+                        @endif
                         <div class="mb-2">
                             <strong>Last Login: </strong> {{ $user->last_login->format('F j, Y @ h:i a') }}
                         </div>

@@ -61,7 +61,8 @@ class UserController extends Controller
     public function new(Request $request)
     {
         return view('users.new', [
-            'user_types' => User::getUserTypes()
+            'user_types' => User::getUserTypes(),
+            'supervisors' => User::supervisors()->get()
         ]);
     }
 
@@ -82,6 +83,11 @@ class UserController extends Controller
             'password' => Hash::make($validated['password']),
         ])->changeUserType($validated['user_type']);
 
+        if ($user->isBlogger()) {
+            $user->supervisor_id = $validated['supervisor'];
+            $user->save();
+        }
+
         $request->session()->flash('status', 'User Created Successfully!');
 
         return redirect($user->getDetailLink());
@@ -97,6 +103,7 @@ class UserController extends Controller
     {
         return view('users.edit', [
             'user' => $user,
+            'supervisors' => User::supervisors()->get(),
             'user_types' => User::getUserTypes()
         ]);
     }
@@ -113,10 +120,16 @@ class UserController extends Controller
         $request->user_id = $user->id;
         $validated = $this->validation($request, false);
         
-        $user->update($request->except('password'));
+        $user->update($request->except(['password', 'supervisor']));
 
         if (isset($validated['password']) && ! empty($validated['password'])) {
             $user->update(['password' => Hash::make($validated['password'])]);
+        }
+
+        if ($user->isBlogger()) {
+
+            $user->supervisor_id = (int) $validated['supervisor'];
+            $user->save();
         }
 
         $request->session()->flash('status', 'User Updated Successfully!');
@@ -161,6 +174,16 @@ class UserController extends Controller
 
         if ($passwordRequired) {
             $rules['password'] = [Rule::requiredIf($passwordRequired), 'string', 'min:6'];
+        }
+
+        if ((int) $request->user_type === User::$blogger) {
+            $rules['supervisor'] = ['required', 'integer', function ($attr, $val, $fail) {
+                $supervisor = User::find($val);
+
+                if (is_null($supervisor) || !$supervisor->isSupervisor()) {
+                    return $fail('Invalid supervisor');
+                }
+            }];
         }
         
         return Validator::make($request->all(), $rules)->validate();
