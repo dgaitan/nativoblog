@@ -16,10 +16,14 @@ class BloggersSeeder extends Seeder
         foreach (SupervisorUsersSeeder::$emails as $email) {
             $supervisor = User::whereEmail($email)->first();
 
+            factory(Post::class, 10)->create([
+                'author_id' => $supervisor->id
+            ]);
+
             factory(User::class, 10)->create()->each(function ($user) use ($supervisor) {
                 $supervisor->bloggers()->save($user);
 
-                factory(Post::class, 30)->make([
+                factory(Post::class, 30)->create([
                     'author_id' => $user->id
                 ]);
             });

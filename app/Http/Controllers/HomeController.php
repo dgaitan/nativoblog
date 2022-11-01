@@ -26,6 +26,9 @@ class HomeController extends Controller
     {
         $context = [
             'user' => $request->user(),
+            'posts_count' => $request->user()->postCount(),
+            'bloggers_count' => $request->user()->bloggersCount(),
+            'supervisors_count' => $request->user()->supervisorsCount()
         ];
         
         return view('home', $context);

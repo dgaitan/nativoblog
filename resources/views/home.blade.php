@@ -47,6 +47,42 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p class="mb-2">Posts Created</p>
+                    <h2>
+                        {{ $posts_count }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
+        @if($user->isSupervisor())
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p class="mb-2">Bloggers</p>
+                    <h2>
+                        {{ $bloggers_count }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+        @endif
+        @if($user->isAdmin())
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <p class="mb-2">Supervisors</p>
+                    <h2>
+                        {{ $supervisors_count }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 
