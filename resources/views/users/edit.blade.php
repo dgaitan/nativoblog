@@ -74,6 +74,29 @@
                     </div>
 
                     <div class="form-group row mb-4">
+                        <label for="supervisor" class="col-md-4 col-form-label text-md-right">{{ __('Supervisor') }}</label>
+
+                        <div class="col-md-6">
+                            <select class="form-control{{ $errors->has('supervisor') ? ' is-invalid' : '' }}" name="supervisor">
+                                <option value="">-</option>
+                                @foreach($supervisors as $supervisor)
+                                    @if($user->supervisor_id === $supervisor->id)
+                                    <option value="{{ $supervisor->id }}" selected>{{ $supervisor->name }}</option>
+                                    @else
+                                    <option value="{{ $supervisor->id }}" >{{ $supervisor->name }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+
+                            @if ($errors->has('supervisor'))
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $errors->first('supervisor') }}</strong>
+                                </span>
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-4">
                         <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
                         <div class="col-md-6">

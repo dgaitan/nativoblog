@@ -59,7 +59,7 @@ class User extends Authenticatable
      *
      * @return BelongsTo
      */
-    public function supervisor(): BelongsTo
+    public function supervisorUser(): BelongsTo
     {
         return $this->belongsTo(self::class, 'supervisor_id');
     }
