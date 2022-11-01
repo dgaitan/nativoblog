@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -87,23 +88,65 @@ class UserController extends Controller
     }
 
     /**
+     * Edit User
+     *
+     * @param User $user
+     * @return void
+     */
+    public function edit(User $user)
+    {
+        return view('users.edit', [
+            'user' => $user,
+            'user_types' => User::getUserTypes()
+        ]);
+    }
+
+    /**
+     * Perform user update
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    public function update(Request $request, User $user)
+    {
+        $request->user_id = $user->id;
+        $validated = $this->validation($request, false);
+        
+        $user->update($request->except('password'));
+
+        if (isset($validated['password']) && ! empty($validated['password'])) {
+            $user->update(['password' => Hash::make($validated['password'])]);
+        }
+
+        $request->session()->flash('status', 'User Updated Successfully!');
+
+        return redirect($user->getEditLink());
+    }
+
+    /**
      * User Creation validation
      *
      * @param Request $request
      * @return array
      */
-    protected function validation(Request $request): array
+    protected function validation(Request $request, bool $passwordRequired = true): array
     {
-        return Validator::make($request->all(), [
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6'],
-            'user_type' => ['required', 'integer', function ($attribute, $value, $fail) use ($request) {
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user_id)],
+            'user_type' => ['required', 'integer', function ($attribute, $value, $fail) {
                 if (! in_array($value, array_keys(User::getUserTypes()))) {
                     return $fail(__('The user type is invalid'));
                 }
             }]
-        ])->validate();
+        ];
+
+        if ($passwordRequired) {
+            $rules['password'] = [Rule::requiredIf($passwordRequired), 'string', 'min:6'];
+        }
+        
+        return Validator::make($request->all(), $rules)->validate();
     }
 }
