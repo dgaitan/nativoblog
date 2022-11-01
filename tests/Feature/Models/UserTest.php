@@ -128,9 +128,9 @@ class UserTest extends TestCase
         
         $this->assertEquals(3, $supervisor->bloggers()->count());
 
-        $this->assertEquals($supervisor->id, $blogger1->supervisor->id);
-        $this->assertEquals($supervisor->id, $blogger2->supervisor->id);
-        $this->assertEquals($supervisor->id, $blogger2->supervisor->id);
+        $this->assertEquals($supervisor->id, $blogger1->supervisorUser->id);
+        $this->assertEquals($supervisor->id, $blogger2->supervisorUser->id);
+        $this->assertEquals($supervisor->id, $blogger2->supervisorUser->id);
     }
 
     protected function create_user(): User
