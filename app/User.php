@@ -3,13 +3,12 @@
 namespace App;
 
 use App\Traits\HasRoles;
-use Exception;
+use App\Traits\SupervisorMethods;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 
 /**
  * App/User
@@ -23,7 +22,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasRoles;
+    use Notifiable, HasRoles, SupervisorMethods;
 
     /**
      * The attributes that are mass assignable.
