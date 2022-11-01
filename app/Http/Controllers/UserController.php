@@ -35,4 +35,17 @@ class UserController extends Controller
             'q' => $request->has('q') ? $request->q : ''
         ]);
     }
+
+    /**
+     * Show User
+     *
+     * @param User $user
+     * @return void
+     */
+    public function show(User $user)
+    {
+        return view('users.show', [
+            'user' => $user
+        ]);
+    }
 }

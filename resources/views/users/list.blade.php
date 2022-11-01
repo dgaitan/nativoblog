@@ -35,15 +35,15 @@
                     <tbody>
                         @foreach ($users as $user)
                             <tr>
-                                <th>{{ $user->id }}</th>
-                                <th>{{ $user->name }}</th>
-                                <th>{{ $user->last_name }}</th>
-                                <th>{{ $user->email }}</th>
-                                <th>{{ $user->posts()->count() }}</th>
+                                <td>{{ $user->id }}</td>
+                                <td>{{ $user->name }}</td>
+                                <td>{{ $user->last_name }}</td>
+                                <td>{{ $user->email }}</td>
+                                <td>{{ $user->posts()->count() }}</td>
                                 @if (Auth::user()->hasPermissionTo('filter_user_types'))
-                                <th>{{ $user->getUserTypeLabel() }}</th>
+                                <td>{{ $user->getUserTypeLabel() }}</td>
                                 @endif
-                                <th>
+                                <td>
                                     <a href="{{ $user->getDetailLink() }}" class="btn btn-xs btn-info text-white">See</a>
                                     @if(Auth::user()->hasPermissionTo('edit_users'))
                                     <a href="{{ $user->getEditLink() }}" class="btn btn-xs btn-success text-white">Edit</a>
@@ -58,7 +58,7 @@
                                         data-bs-target="#deletePostModal" 
                                         data-bs-whatever="@mdo">Delete</button>
                                     @endif
-                                </th>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

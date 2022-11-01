@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        return $user->hasPermissionTo('see_users');
+        return $this->performAction('see_users', $user, $model);
     }
 
     /**
@@ -89,5 +89,25 @@ class UserPolicy
     public function forceDelete(User $user, User $model)
     {
         //
+    }
+
+    /**
+     * PErform an action if has permission
+     *
+     * @param User $user
+     * @param User $model
+     * @return void
+     */
+    public function performAction(string $action, User $user, User $model)
+    {
+        if (! $user->hasPermissionTo($action)) {
+            return false;
+        }
+        
+        if ($user->isSupervisor()) {
+            return $model->supervisor_id === $user->id;
+        }
+        
+        return true;
     }
 }
