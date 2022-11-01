@@ -34,7 +34,7 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a href="" class="nav-link">Blogs</a>
+                            <a href="{{ route('app.posts.index') }}" class="nav-link">Blogs</a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">Users</a>

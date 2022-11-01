@@ -20,4 +20,8 @@ Route::middleware('auth')->name('app.')->group(function () {
     Route::prefix('/account')->name('account.')->group(function () {
         Route::post('/update', 'AccountController@update')->name('update');
     });
+
+    Route::prefix('/posts')->name('posts.')->group(function () {
+        Route::get('/', 'PostController@index')->name('index');
+    });
 });

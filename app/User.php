@@ -140,6 +140,20 @@ class User extends Authenticatable
     }
 
     /**
+     * Return initial filtered query for posts
+     *
+     * @return Builder
+     */
+    public function getPosts(): Builder
+    {
+        return [
+            self::$blogger => Post::whereAuthorId($this->id),
+            self::$supervisor => $this->getSupervisorPostsQuery(),
+            self::$admin => Post::query()
+        ][$this->user_type];
+    }
+
+    /**
      * Scope supervisor users
      *
      * @param Builder $query
