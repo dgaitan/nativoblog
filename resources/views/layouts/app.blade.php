@@ -14,7 +14,10 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+    {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css"> --}}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;400;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -33,12 +36,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a href="{{ route('app.posts.index') }}" class="nav-link">Blogs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link">Users</a>
-                        </li>
+                        @if (Auth::check())
+                            <li class="nav-item">
+                                <a href="{{ route('app.posts.index') }}" class="nav-link">Blogs</a>
+                            </li>
+                            @if (Auth::user()->hasPermissionTo('see_my_bloggers'))
+                            <li class="nav-item">
+                                <a href="{{ route('app.users.index') }}" class="nav-link">Users</a>
+                            </li>
+                            @endif
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

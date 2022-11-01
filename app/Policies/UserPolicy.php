@@ -10,6 +10,17 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can view list the model.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function viewList(User $user)
+    {
+        return $user->hasPermissionTo('see_users');
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
@@ -18,7 +29,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        return $this->performAction('see_users', $user, $model);
     }
 
     /**
@@ -29,7 +40,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermissionTo('create_users');
     }
 
     /**
@@ -53,7 +64,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        //
+        return $user->hasPermissionTo('delete_user');
     }
 
     /**
@@ -78,5 +89,25 @@ class UserPolicy
     public function forceDelete(User $user, User $model)
     {
         //
+    }
+
+    /**
+     * PErform an action if has permission
+     *
+     * @param User $user
+     * @param User $model
+     * @return void
+     */
+    public function performAction(string $action, User $user, User $model)
+    {
+        if (! $user->hasPermissionTo($action)) {
+            return false;
+        }
+        
+        if ($user->isSupervisor()) {
+            return $model->supervisor_id === $user->id;
+        }
+        
+        return true;
     }
 }

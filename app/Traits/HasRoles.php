@@ -16,6 +16,16 @@ trait HasRoles
     public static $admin = 1;
 
     /**
+     * Retrieve the user type label
+     *
+     * @return string
+     */
+    public function getUserTypeLabel(): string
+    {
+        return self::getUserTypes()[$this->user_type];
+    }
+
+    /**
      * Make a user a blogger
      *
      * @return self
@@ -177,7 +187,7 @@ trait HasRoles
     {
         return [
             ...$this->getBloggerPermissions(),
-            'see_my_bloggers', 'see_my_bloggers_posts',
+            'see_my_bloggers', 'see_my_bloggers_posts', 'see_users',
             'edit_my_bloggers_posts', 'delete_my_bloggers_posts',
         ];
     }
@@ -191,7 +201,7 @@ trait HasRoles
     {
         return [
             ...$this->getSupervisorPermissions(),
-            'see_all_posts', 'see_user_types', 'see_users', 'create_users', 'edit_users',
+            'see_all_posts', 'see_user_types', 'create_users', 'edit_users',
             'delete_users', 'filter_user_types', 'assign_user_types', 'delete_user',
             'assign_supervisor', 'see_supervisors', 'see_all_posts', 'delete_any_post',
             'edit_any_post'
