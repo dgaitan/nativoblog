@@ -62,6 +62,11 @@ class Post extends Model
         ]);
     }
 
+    /**
+     * Get Delete Action Link
+     *
+     * @return string
+     */
     public function getDeleteActionLink(): string
     {
         return route('app.posts.delete', [

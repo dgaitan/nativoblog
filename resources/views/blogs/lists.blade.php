@@ -6,7 +6,7 @@
             <div class="col-12 d-flex justify-content-between mb-5">
                 <div class="d-flex align-items-center">
                     <h2 class="me-3 mb-0">Post List</h2>
-                    <a href="" class="btn btn-sm btn-primary text-white">Add New Post</a>
+                    <a href="{{ route('app.posts.new') }}" class="btn btn-sm btn-primary text-white">Add New Post</a>
                 </div>
                 <div>
                     <form action="{{ route('app.posts.index') }}" method="GET" class="input-group">

@@ -23,6 +23,8 @@ Route::middleware('auth')->name('app.')->group(function () {
 
     Route::prefix('/posts')->name('posts.')->group(function () {
         Route::get('/', 'PostController@index')->name('index');
+        Route::get('/new', 'PostController@new')->name('new');
+        Route::post('/new', 'PostController@create')->name('create');
         
         Route::middleware('can:performAction,post')->prefix('/{post}')->group(function () {
             Route::get('/', 'PostController@detail')->name('detail');
