@@ -32,7 +32,8 @@
                                 <th>{{ $post->title }}</th>
                                 <th>{{ $post->author->name }}</th>
                                 <th>
-                                    
+                                    <a href="" class="btn btn-xs btn-success text-white">Edit</a>
+                                    <a href="" class="btn btn-xs btn-danger text-white">Delete</a>
                                 </th>
                             </tr>
                         @endforeach
