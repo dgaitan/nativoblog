@@ -45,6 +45,11 @@
                                 <a href="{{ route('app.users.index') }}" class="nav-link">Users</a>
                             </li>
                             @endif
+                            @if (Auth::user()->hasPermissionTo('see_supervisors'))
+                            <li class="nav-item">
+                                <a href="{{ route('app.supervisors.index') }}" class="nav-link">Supervisors</a>
+                            </li>
+                            @endif
                         @endif
                     </ul>
 

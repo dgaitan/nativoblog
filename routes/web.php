@@ -57,4 +57,13 @@ Route::middleware('auth')->name('app.')->group(function () {
             ->middleware('can:delete,user')
             ->name('delete');
     });
+
+    Route::prefix('/supervisors')->name('supervisors.')->group(function () {
+        Route::get('/', 'SupervisorController@index')
+            ->middleware('can:viewSupervisor,App\User')
+            ->name('index');
+        Route::get('/{user}/bloggers', 'SupervisorController@bloggers')
+            ->middleware('can:viewSupervisor,App\User')
+            ->name('bloggers');
+    });
 });
