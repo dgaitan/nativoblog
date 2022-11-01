@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -47,5 +50,119 @@ class UserController extends Controller
         return view('users.show', [
             'user' => $user
         ]);
+    }
+
+    /**
+     * Create new user
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function new(Request $request)
+    {
+        return view('users.new', [
+            'user_types' => User::getUserTypes()
+        ]);
+    }
+
+    /**
+     * Store New user
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function store(Request $request)
+    {
+        $validated = $this->validation($request);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'last_name' => $validated['last_name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ])->changeUserType($validated['user_type']);
+
+        $request->session()->flash('status', 'User Created Successfully!');
+
+        return redirect($user->getDetailLink());
+    }
+
+    /**
+     * Edit User
+     *
+     * @param User $user
+     * @return void
+     */
+    public function edit(User $user)
+    {
+        return view('users.edit', [
+            'user' => $user,
+            'user_types' => User::getUserTypes()
+        ]);
+    }
+
+    /**
+     * Perform user update
+     *
+     * @param Request $request
+     * @param User $user
+     * @return void
+     */
+    public function update(Request $request, User $user)
+    {
+        $request->user_id = $user->id;
+        $validated = $this->validation($request, false);
+        
+        $user->update($request->except('password'));
+
+        if (isset($validated['password']) && ! empty($validated['password'])) {
+            $user->update(['password' => Hash::make($validated['password'])]);
+        }
+
+        $request->session()->flash('status', 'User Updated Successfully!');
+
+        return redirect($user->getEditLink());
+    }
+
+    /**
+     * Delete a User
+     *
+     * @param Request $request
+     * @param User $post
+     * @return void
+     */
+    public function delete(Request $request, User $user)
+    {
+        $user->delete();
+
+        $request->session()->flash('status', 'User Deleted Successfully!');
+
+        return redirect(route('app.users.index'));
+    }
+
+    /**
+     * User Creation validation
+     *
+     * @param Request $request
+     * @return array
+     */
+    protected function validation(Request $request, bool $passwordRequired = true): array
+    {
+        $rules = [
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($request->user_id)],
+            'user_type' => ['required', 'integer', function ($attribute, $value, $fail) {
+                if (! in_array($value, array_keys(User::getUserTypes()))) {
+                    return $fail(__('The user type is invalid'));
+                }
+            }]
+        ];
+
+        if ($passwordRequired) {
+            $rules['password'] = [Rule::requiredIf($passwordRequired), 'string', 'min:6'];
+        }
+        
+        return Validator::make($request->all(), $rules)->validate();
     }
 }
