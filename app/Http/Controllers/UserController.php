@@ -24,13 +24,16 @@ class UserController extends Controller
             $users->whereSupervisorId($request->user()->id);
         }
 
-
         if ($request->has('q')) {
-            $users->where(function($query) use ($request) {
+            $users = $users->where(function($query) use ($request) {
                 $query->where('name', 'like', "%$request->q%")
                     ->orWhere('last_name', 'like', "%$request->q%")
                     ->orWhere('email', 'like', "%$request->q%");
             }); 
+        }
+
+        if ($request->has('user_type') && ! empty($request->user_type) && $request->user()->hasPermissionTo('filter_user_types')) {
+            $users->where('user_type', $request->input('user_type'));
         }
 
         return view('users.list', [

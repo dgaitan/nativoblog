@@ -12,8 +12,16 @@
                 </div>
                 <div>
                     <form action="{{ route('app.users.index') }}" method="GET" class="input-group">
+                        @if(Auth::user()->hasPermissionTo('filter_user_types'))
+                        <select name="user_type" id="" class="form-control">
+                            <option value="">Filter By User Type</option>
+                            <option value="1">Admin</option>
+                            <option value="2">Supervisor</option>
+                            <option value="3">Bloggers</option>
+                        </select>
+                        @endif
                         <input type="search" class="form-control" placeholder="Search Post..." name="q" value="{{ $q }}" aria-label="Search Post" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Search</button>
+                        <button class="btn btn-outline-secondary" type="submit" id="button-addon2">Submit</button>
                     </form>
                 </div>
             </div>
