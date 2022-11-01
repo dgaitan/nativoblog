@@ -85,6 +85,54 @@ class User extends Authenticatable
     }
 
     /**
+     * Get Edit Link
+     *
+     * @return string
+     */
+    public function getEditLink(): string
+    {
+        return route('app.users.edit', [
+            'user' => $this
+        ]);
+    }
+
+    /**
+     * Get Dtail Link
+     *
+     * @return string
+     */
+    public function getDetailLink(): string
+    {
+        return route('app.users.show', [
+            'user' => $this
+        ]);
+    }
+
+    /**
+     * GEt Update Action Link
+     *
+     * @return string
+     */
+    public function getUpdateActionLink(): string
+    {
+        return route('app.users.update', [
+            'user' => $this
+        ]);
+    }
+
+    /**
+     * Get Delete Action Link
+     *
+     * @return string
+     */
+    public function getDeleteActionLink(): string
+    {
+        return route('app.users.delete', [
+            'user' => $this
+        ]);
+    }
+
+    /**
      * get Post Count
      *
      * @return integer

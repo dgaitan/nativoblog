@@ -36,7 +36,7 @@ Route::middleware('auth')->name('app.')->group(function () {
 
     Route::prefix('/users')->name('users.')->group(function () {
         Route::get('/', 'UserController@index')
-            ->middleware('can:view,user')
+            ->middleware('can:viewList,App\User')
             ->name('index');
         Route::put('/new', 'UserController@new')
             ->middleware('can:create,user')

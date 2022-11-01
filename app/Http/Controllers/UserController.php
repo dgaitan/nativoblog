@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    /**
+     * User Index
+     *
+     * @param Request $request
+     * @return void
+     */
     public function index(Request $request)
     {
         $users = User::orderBy('id', 'desc');

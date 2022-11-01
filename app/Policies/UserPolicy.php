@@ -10,6 +10,17 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can view list the model.
+     *
+     * @param  \App\User  $user
+     * @return mixed
+     */
+    public function viewList(User $user)
+    {
+        return $user->hasPermissionTo('see_users');
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param  \App\User  $user
