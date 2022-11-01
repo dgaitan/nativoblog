@@ -2,6 +2,8 @@
 
 namespace App\Traits;
 
+use App\Post;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 
 trait SupervisorMethods
@@ -46,5 +48,18 @@ trait SupervisorMethods
             : Cache::remember($cacheKey, now()->addYear(), function () {
                 return $this->bloggers()->pluck('id')->toArray();
             });
+    }
+
+    /**
+     * Get Supervisors query
+     *
+     * @return Builder
+     */
+    public function getSupervisorPostsQuery(): Builder
+    {
+        $authorIds = [$this->id, ...$this->bloggerIds()];
+
+        return Post::with('author')
+            ->whereIn('author_id', $authorIds);
     }
 }

@@ -6,6 +6,7 @@ use App\Traits\HasRoles;
 use App\Traits\SupervisorMethods;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -84,6 +85,48 @@ class User extends Authenticatable
     }
 
     /**
+     * get Post Count
+     *
+     * @return integer
+     */
+    public function postCount(): int
+    {
+        return [
+            self::$blogger => $this->posts()->count(),
+            self::$supervisor => $this->getSupervisorPostsQuery()->count(),
+            self::$admin => Post::count()
+        ][$this->user_type];
+    }
+
+    /**
+     * Bloggers Count
+     *
+     * @return integer
+     */
+    public function bloggersCount(): int
+    {
+        return [
+            self::$blogger => 0,
+            self::$supervisor => $this->totalBloggers(),
+            self::$admin => User::bloggerUsers()->count()
+        ][$this->user_type];
+    }
+
+    /**
+     * Retrieve Supervisors count
+     *
+     * @return integer
+     */
+    public function supervisorsCount(): int
+    {
+        return [
+            self::$blogger => 0,
+            self::$supervisor => 0,
+            self::$admin => User::supervisors()->count()
+        ][$this->user_type];
+    }
+
+    /**
      * Register user last login
      *
      * @return User
@@ -94,6 +137,39 @@ class User extends Authenticatable
         $this->save();
 
         return $this;
+    }
+
+    /**
+     * Scope supervisor users
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeSupervisors(Builder $query): Builder
+    {
+        return $query->whereUserType(self::$supervisor);
+    }
+
+    /**
+     * Scope blogger users
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeBloggerUsers(Builder $query): Builder
+    {
+        return $query->whereUserType(self::$blogger);
+    }
+
+    /**
+     * Scope admin users
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeAdmins(Builder $query): Builder
+    {
+        return $query->whereUserType(self::$admin);
     }
 
     /**
