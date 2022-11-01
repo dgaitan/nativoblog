@@ -125,6 +125,22 @@ class UserController extends Controller
     }
 
     /**
+     * Delete a User
+     *
+     * @param Request $request
+     * @param User $post
+     * @return void
+     */
+    public function delete(Request $request, User $user)
+    {
+        $user->delete();
+
+        $request->session()->flash('status', 'User Deleted Successfully!');
+
+        return redirect(route('app.users.index'));
+    }
+
+    /**
      * User Creation validation
      *
      * @param Request $request

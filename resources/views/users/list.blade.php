@@ -51,11 +51,11 @@
                                     @if(Auth::user()->hasPermissionTo('delete_users'))
                                     <button 
                                         type="button" 
-                                        class="btn btn-xs btn-danger text-white delete-post" 
-                                        data-post-id="{{ $user->id }}" 
+                                        class="btn btn-xs btn-danger text-white delete-record" 
+                                        data-element-id="{{ $user->id }}" 
                                         data-action="{{ $user->getDeleteActionLink() }}"
                                         data-bs-toggle="modal" 
-                                        data-bs-target="#deletePostModal" 
+                                        data-bs-target="#deleteRecordModal" 
                                         data-bs-whatever="@mdo">Delete</button>
                                     @endif
                                 </td>
@@ -70,13 +70,13 @@
 
     {{-- Delete Confirmation Modal --}}
     <!-- Modal -->
-    <div class="modal fade" id="deletePostModal" tabindex="-1" aria-labelledby="deletePostModalLabel" aria-hidden="true">
+    <div class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="deleteRecordModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form class="modal-content" id="deletePostModalForm" method="POST" action="">
+            <form class="modal-content" id="deleteRecordModalForm" method="POST" action="">
                 <input type="hidden" name="_method" value="DELETE">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="deletePostModalLabel">Are you sure?</h5>
+                    <h5 class="modal-title" id="deleteRecordModalLabel">Are you sure?</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -84,7 +84,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" id="deletePostModalSubmit" class="btn btn-primary text-white">Confirm</button>
+                    <button type="submit" id="deleteRecordModalSubmit" class="btn btn-primary text-white">Confirm</button>
                 </div>
             </form>
         </div>

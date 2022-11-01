@@ -100,21 +100,21 @@ var updateAccountAction = function () {
     });
 };
 
-var deletePost = function () {
-    var trigger = $('.delete-post');
+var deleteRecord = function () {
+    var trigger = $('.delete-record');
 
     if (! trigger) {
         return;
     }
 
     trigger.on('click', function () {
-        var post = $(this);
+        var record = $(this);
         
-        $('#deletePostModalForm').attr('action', post.data('action'));
+        $('#deleteRecordModalForm').attr('action', record.data('action'));
     });
 };
 
 $(document).ready(function () {
     updateAccountAction();
-    deletePost();
+    deleteRecord();
 });

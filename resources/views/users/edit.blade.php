@@ -57,7 +57,11 @@
                         <div class="col-md-6">
                             <select class="form-control{{ $errors->has('user_type') ? ' is-invalid' : '' }}" name="user_type" value="{{ $user->user_type }}" required>
                                 @foreach($user_types as $key => $user_type)
-                                    <option value="{{ $key }}">{{ $user_type }}</option>
+                                    @if ($key === $user->user_type)
+                                        <option value="{{ $key }}" selected>{{ $user_type }}</option>
+                                    @else
+                                        <option value="{{ $key }}">{{ $user_type }}</option>
+                                    @endif
                                 @endforeach
                             </select>
 
