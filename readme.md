@@ -16,10 +16,17 @@ Technologies that needs to be used for developing the code:
 
 1. Clone this project in your local computer
 2. Run `composer install` (php 7.4 is required since it is a Laravel 5.)
-3. Create a mysql database and connect it using laravel .env. By Default it will look for a `root` user and 
-4. Run migrations by `php artisan migrate`
-5. Seed the database by running `php artisan db:seed`
-6. Go to `localhost:8000` and use `taylor@otwell.com` and `secret` as password to login as an admin. See `database/seeds/DatabaseSeeder.php` file to check for other user types. All users use `secret` as password.
+3. Copy `.env` file. `cp .env.example .env`
+4. Generate app key `php artisan key:generate`
+5. Create a mysql database and connect it using laravel .env. By Default it will look for a `root` user and a password named `nativoblog`. See .env to change values.
+6. Run migrations by `php artisan migrate`
+7. Seed the database by running `php artisan db:seed`
+8. Run server `php artisan serve`
+9. Go to `localhost:8000` and use `taylor@otwell.com` and `secret` as password to login as an admin. See `database/seeds/DatabaseSeeder.php` file to check for other user types. All users use `secret` as password.
+
+### Bonus
+I added some tests to ensure the behavior of permissions in users (I decided build a simple solution instead of using a library to handle it).
+`./vendor/bin/phpunit`
 
 ### Task description:
 The test project is a simple blog creation and management application with different user
