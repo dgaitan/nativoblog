@@ -18,7 +18,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        return $user->hasPermissionTo('see_users');
     }
 
     /**
@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermissionTo('create_users');
     }
 
     /**
@@ -53,7 +53,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        //
+        return $user->hasPermissionTo('delete_user');
     }
 
     /**

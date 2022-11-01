@@ -36,9 +36,11 @@
                         <li class="nav-item">
                             <a href="{{ route('app.posts.index') }}" class="nav-link">Blogs</a>
                         </li>
+                        @if (Auth::user()->hasPermissionTo('see_users'))
                         <li class="nav-item">
                             <a href="" class="nav-link">Users</a>
                         </li>
+                        @endif
                     </ul>
 
                     <!-- Right Side Of Navbar -->

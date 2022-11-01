@@ -33,4 +33,28 @@ Route::middleware('auth')->name('app.')->group(function () {
             Route::delete('/delete', 'PostController@delete')->name('delete');
         });
     });
+
+    Route::prefix('/users')->name('users.')->group(function () {
+        Route::get('/', 'UserController@index')
+            ->middleware('can:view,user')
+            ->name('index');
+        Route::put('/new', 'UserController@new')
+            ->middleware('can:create,user')
+            ->name('new');
+        Route::put('/new', 'UserController@store')
+            ->middleware('can:create,user')
+            ->name('store');
+        Route::get('/{user}', 'UserController@show')
+            ->middleware('can:view,user')
+            ->name('show');
+        Route::get('/{user}/edit', 'UserController@edit')
+            ->middleware('can:update,user')
+            ->name('edit');
+        Route::put('/{user}/edit', 'UserController@update')
+            ->middleware('can:update,user')
+            ->name('update');
+        Route::delete('/{user}/delete', 'UserController@delete')
+            ->middleware('can:delete,user')
+            ->name('delete');
+    });
 });
