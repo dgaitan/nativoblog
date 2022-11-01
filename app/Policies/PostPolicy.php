@@ -90,14 +90,14 @@ class PostPolicy
      */
     public function performAction(User $user, Post $post)
     {
-        if ($user->isAdmin()) {
+        if ($user->id === $post->author_id) {
             return true;
         }
 
         if ($user->isSupervisor()) {
-            return in_array($post->author_id, $user->bloggerIds());
+            return $post->author->supervisor_id === $user->id;
         }
 
-        return $user->id === $post->author_id;
+        return $user->isAdmin();
     }
 }
